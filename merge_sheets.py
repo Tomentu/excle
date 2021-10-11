@@ -36,6 +36,10 @@ def merge(keywords):
         for i in range(1,ws_tmp.max_row+1):
             uuid = ws_tmp.cell(i,1).value
             row_id = 0
+            is_change = False
+            if not uuid:
+                break
+            s = "未更改"
             try:
                 row_id = people_dict[uuid]
             except:
@@ -47,6 +51,10 @@ def merge(keywords):
                     ws.cell(row_id,j).value = val
                     ws.cell(row_id,j).font = Font(color="33FF00")
                     change_cnt = change_cnt+1
+
+                    is_change = True
+            if is_change:
+                ws.cell(row_id, col_num + 1).value = "已更改"
     wb.save(res_path+"/"+src_file)
     print("合并完成---------------")
     print(change_cnt,"处发生改变")
